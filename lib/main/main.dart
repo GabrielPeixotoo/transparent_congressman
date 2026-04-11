@@ -1,4 +1,6 @@
+import 'package:Deputado_Transparente/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 
 import '../ui/theme/theme.dart';
@@ -12,12 +14,32 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      localeResolutionCallback: (locale, supported) {
+        if (locale != null && locale.languageCode == 'pt') {
+          return const Locale('pt');
+        }
+        return const Locale('en');
+      },
+      localeListResolutionCallback: (locales, supported) {
+        for (final locale in locales ?? const <Locale>[]) {
+          if (locale.languageCode == 'pt') {
+            return const Locale('pt');
+          }
+        }
+        return const Locale('en');
+      },
       initialRoute: AppRoutes.homePage,
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
@@ -28,9 +50,7 @@ class MyApp extends StatelessWidget {
       transitionDuration: const Duration(milliseconds: 300),
       getPages: [
         GetPage(name: AppRoutes.homePage, page: makeHomePage),
-        GetPage(
-            name: AppRoutes.congressExpenseDetails,
-            page: makeCongressPersonExpensePageFactory),
+        GetPage(name: AppRoutes.congressExpenseDetails, page: makeCongressPersonExpensePageFactory),
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:Deputado_Transparente/l10n/app_localizations.dart';
 import 'package:pdfx/pdfx.dart';
 
 class PdfViewerWidget extends StatefulWidget {
@@ -28,8 +29,10 @@ class _PdfViewerWidgetState extends State<PdfViewerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Documento'), elevation: 0),
+      appBar: AppBar(
+          title: Text(l10n.documentViewerTitle), elevation: 0),
       body: _pdfController == null
           ? const Center(child: CircularProgressIndicator())
           : PdfViewPinch(controller: _pdfController!),

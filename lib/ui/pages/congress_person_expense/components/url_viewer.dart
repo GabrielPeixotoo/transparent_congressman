@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:Deputado_Transparente/l10n/app_localizations.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebView extends StatefulWidget {
@@ -34,9 +35,10 @@ class _WebViewState extends State<WebView> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.document);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Documento'), elevation: 0),
+      appBar: AppBar(
+          title: Text(l10n.documentViewerTitle), elevation: 0),
       body: WebViewWidget(controller: _controller),
     );
   }

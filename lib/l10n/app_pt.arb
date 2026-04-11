@@ -1,0 +1,38 @@
+{
+  "@@locale": "pt",
+  "appTitle": "Deputado Transparente",
+  "homeWelcomeTitle": "Bem-vindo(a) ao seu app de fiscalização de gastos dos deputados federais!",
+  "homeSearchActiveHint": "Toque no ícone de busca para filtrar, ou limpe o campo para retornar a todos os resultados.",
+  "homeSearchFieldHint": "Pesquise o nome do deputado",
+  "homeEmptyFilterResults": "Nenhum resultado foi encontrado com esse filtro.",
+  "retry": "Tentar novamente",
+  "clearFilters": "Limpar filtros",
+  "applyFilter": "Aplicar filtro",
+  "filters": "Filtros",
+  "clearFilter": "Limpar filtro",
+  "expensesIntro": "Aqui ficam contemplados os gastos nos últimos 6 meses do seguinte deputado:",
+  "expensesNoData": "Não há dados suficientes.",
+  "documentUnavailable": "Documento indisponível",
+  "expensesPeriodTotal": "Total do periodo: {total}",
+  "@expensesPeriodTotal": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "errorNetwork": "Sem conexão. Verifique a internet e tente novamente.",
+  "errorServer": "Serviço indisponível ({statusCode}). Tente novamente.",
+  "@errorServer": {
+    "placeholders": {
+      "statusCode": {
+        "type": "int"
+      }
+    }
+  },
+  "errorNotFound": "Recurso não encontrado.",
+  "errorParse": "Não foi possível interpretar os dados recebidos.",
+  "errorUnknown": "Algo deu errado. Tente novamente.",
+  "documentViewerTitle": "Documento",
+  "stateAll": "Todos"
+}

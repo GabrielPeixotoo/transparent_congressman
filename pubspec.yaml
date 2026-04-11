@@ -10,6 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
   cupertino_icons: ^1.0.2
   equatable: ^2.0.5
@@ -41,6 +44,7 @@ flutter_icons:
   min_sdk_android: 21
 
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:

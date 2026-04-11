@@ -1,5 +1,6 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:Deputado_Transparente/l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,7 +34,8 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final l10n = AppLocalizations.of(context)!;
+    final size = MediaQuery.of(context).size;
     return Container(
       color: AppColors.primaryColor,
       child: Scaffold(
@@ -46,8 +48,7 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
             CustomBodyTop(
               size: size,
               childSize: 68,
-              label:
-                  'Aqui ficam contemplados os gastos nos últimos 6 meses do seguinte deputado:',
+              label: l10n.expensesIntro,
               child: Hero(
                 tag: congressPerson.id,
                 child: Material(
@@ -76,7 +77,7 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                failureUserMessage(failure),
+                                failureUserMessage(failure, l10n),
                                 style: AppTextStyle.poppins2,
                                 textAlign: TextAlign.center,
                               ),
@@ -85,7 +86,7 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
                                 onPressed: () => widget.presenter
                                     .fetchCongressPersonExpense(
                                         id: congressPerson.id.toString()),
-                                child: const Text('Tentar novamente'),
+                                child: Text(l10n.retry),
                               ),
                             ],
                           ),
@@ -104,9 +105,9 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
                         children: [
                           Visibility(
                             visible: items.isNotEmpty,
-                            replacement: const Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Text('Não há dados suficientes.'),
+                            replacement: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(l10n.expensesNoData),
                             ),
                             child: Expanded(
                               child: ListView.builder(
@@ -131,7 +132,7 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
                                         }
                                       } else {
                                         UIHelper.showCustomSnackBar(
-                                          title: 'Documento indisponível',
+                                          title: l10n.documentUnavailable,
                                           titleColor: Colors.white,
                                           backgroundColor:
                                               AppColors.primaryColor,
@@ -164,7 +165,7 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'Total do periodo: $formattedExpenseSum',
+                                l10n.expensesPeriodTotal(formattedExpenseSum),
                                 style: AppTextStyle.poppins2,
                               ),
                             ),

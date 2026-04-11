@@ -4,6 +4,7 @@ import '../domain/entities/entities.dart';
 import '../domain/result/result.dart';
 import '../domain/usecases/usecases.dart';
 import '../main/routes/routes.dart';
+import '../ui/helpers/brazilian_states.dart';
 import '../ui/pages/pages.dart';
 
 class GetXHomePresenter implements HomePresenter {
@@ -44,7 +45,7 @@ class GetXHomePresenter implements HomePresenter {
 
   @override
   Future<void> searchCongressPersonByState({required String state}) async {
-    if (state.isEmpty || state == 'Todos') return;
+    if (state.isEmpty || state == BrazilianState.allStatesValue) return;
     _state.value = const HomeLoading();
     final result = await fetchCongressPersonsUseCase.call(
       params: FetchCongressPeopleParams(siglaUf: state),

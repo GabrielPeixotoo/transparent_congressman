@@ -8,8 +8,10 @@ class BrazilianState {
     required this.imageUrl,
   });
 
+  static const String allStatesValue = '_all';
+
   static const List<BrazilianState> states = [
-    BrazilianState(name: 'Todos', imageUrl: SvgIcons.brazilFlag),
+    BrazilianState(name: allStatesValue, imageUrl: SvgIcons.brazilFlag),
     BrazilianState(name: 'AC', imageUrl: SvgIcons.acreFlag),
     BrazilianState(name: 'AL', imageUrl: SvgIcons.alagoasFlag),
     BrazilianState(name: 'AP', imageUrl: SvgIcons.amapaFlag),

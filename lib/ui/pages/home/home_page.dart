@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:Deputado_Transparente/l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -41,14 +42,14 @@ class _HomePageState extends State<HomePage> {
 
   void closeKeyboard() => FocusManager.instance.primaryFocus?.unfocus();
 
-  final String initialLabel =
-      'Bem-vindo(a) ao seu app de fiscalização de gastos dos deputados federais!';
-  final String iconLabel =
-      'Toque no ícone de busca para filtrar, ou limpe o campo para retornar a todos os resultados.';
-
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final l10n = AppLocalizations.of(context)!;
+    final size = MediaQuery.of(context).size;
+    final topLabel = searchController.text.isNotEmpty
+        ? l10n.homeSearchActiveHint
+        : l10n.homeWelcomeTitle;
+
     return Container(
       color: AppColors.primaryColor,
       child: SafeArea(
@@ -61,8 +62,7 @@ class _HomePageState extends State<HomePage> {
               CustomBodyTop(
                 size: size,
                 childSize: 54,
-                label:
-                    searchController.text.isNotEmpty ? iconLabel : initialLabel,
+                label: topLabel,
                 child: Row(
                   children: <Widget>[
                     Expanded(
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                         controller: searchController,
                         onChanged: onChangedTextField,
                         decoration: InputDecoration(
-                          hintText: "Pesquise o nome do deputado",
+                          hintText: l10n.homeSearchFieldHint,
                           hintStyle: TextStyle(
                             color: AppColors.primaryColor.withOpacity(0.5),
                           ),
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     HomeSuccess(:final items) when items.isEmpty => Center(
                         child: Text(
-                          'Nenhum resultado foi encontrado com esse filtro.',
+                          l10n.homeEmptyFilterResults,
                           style: AppTextStyle.poppins2,
                           textAlign: TextAlign.center,
                         ),
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  failureUserMessage(failure),
+                                  failureUserMessage(failure, l10n),
                                   style: AppTextStyle.poppins2,
                                   textAlign: TextAlign.center,
                                 ),
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                                 ElevatedButton(
                                   onPressed: () =>
                                       widget.presenter.fetchCongressPersons(),
-                                  child: const Text('Tentar novamente'),
+                                  child: Text(l10n.retry),
                                 ),
                               ],
                             ),
@@ -165,7 +165,7 @@ class _HomePageState extends State<HomePage> {
             replacement: FloatingActionButton.extended(
               onPressed: () => UIHelper.showCustomBottomSheet(
                 bottomSheet: StatefulBuilder(
-                    builder: (BuildContext context, StateSetter setState) {
+                    builder: (BuildContext context, StateSetter setSheetState) {
                   return SizedBox(
                       height: MediaQuery.of(context).size.height * 0.18,
                       child: Column(
@@ -189,20 +189,27 @@ class _HomePageState extends State<HomePage> {
                                                         width: 35,
                                                       ),
                                                       const SizedBox(width: 5),
-                                                      Text(state.name,
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400)),
+                                                      Text(
+                                                        state.name ==
+                                                                BrazilianState
+                                                                    .allStatesValue
+                                                            ? l10n.stateAll
+                                                            : state.name,
+                                                        style: GoogleFonts
+                                                            .poppins(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                      ),
                                                     ],
                                                   ),
                                                 )))
                                         .toList(),
                                     onChanged: (value) {
-                                      setState(() {
+                                      setSheetState(() {
                                         selectedState = value!;
                                       });
+                                      setState(() {});
                                     }),
                               ],
                             ),
@@ -215,15 +222,20 @@ class _HomePageState extends State<HomePage> {
                                     closeKeyboard();
                                     Navigator.pop(context);
                                     widget.presenter.fetchCongressPersons();
+                                    setSheetState(() {
+                                      selectedState =
+                                          BrazilianState.states[0];
+                                    });
                                     setState(() {
-                                      selectedState = BrazilianState.states[0];
+                                      selectedState =
+                                          BrazilianState.states[0];
                                     });
                                   },
                                   icon: const Icon(
                                     Icons.arrow_back,
                                     size: 24,
                                   ),
-                                  label: const Text("Limpar filtros"),
+                                  label: Text(l10n.clearFilters),
                                 ),
                               ),
                               Expanded(
@@ -239,7 +251,7 @@ class _HomePageState extends State<HomePage> {
                                     Icons.filter_alt_rounded,
                                     size: 24,
                                   ),
-                                  label: const Text("Aplicar filtro"),
+                                  label: Text(l10n.applyFilter),
                                 ),
                               ),
                             ],
@@ -248,13 +260,13 @@ class _HomePageState extends State<HomePage> {
                       ));
                 }),
               ),
-              label: const Text('Filtros'),
+              label: Text(l10n.filters),
               icon: const Icon(Icons.filter_alt_off_rounded),
               backgroundColor: AppColors.secondaryColor,
             ),
             child: FloatingActionButton.extended(
               onPressed: clearControllerAndRemoveFilters,
-              label: const Text('Limpar filtro'),
+              label: Text(l10n.clearFilter),
               icon: const Icon(Icons.filter_alt_off_rounded),
               backgroundColor: AppColors.secondaryColor,
             ),

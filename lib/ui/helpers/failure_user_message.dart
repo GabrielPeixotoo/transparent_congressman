@@ -1,15 +1,13 @@
+import 'package:Deputado_Transparente/l10n/app_localizations.dart';
+
 import '../../domain/errors/failure.dart';
 
-String failureUserMessage(Failure failure) {
+String failureUserMessage(Failure failure, AppLocalizations l10n) {
   return switch (failure) {
-    NetworkFailure(:final message) =>
-      message ?? 'Sem conexão. Verifique a internet e tente novamente.',
-    ServerFailure(:final statusCode) =>
-      'Serviço indisponível ($statusCode). Tente novamente.',
-    NotFoundFailure(:final message) =>
-      message ?? 'Recurso não encontrado.',
-    ParseFailure(:final message) =>
-      message ?? 'Não foi possível interpretar os dados recebidos.',
-    UnknownFailure() => 'Algo deu errado. Tente novamente.',
+    NetworkFailure(:final message) => message ?? l10n.errorNetwork,
+    ServerFailure(:final statusCode) => l10n.errorServer(statusCode),
+    NotFoundFailure() => l10n.errorNotFound,
+    ParseFailure() => l10n.errorParse,
+    UnknownFailure() => l10n.errorUnknown,
   };
 }

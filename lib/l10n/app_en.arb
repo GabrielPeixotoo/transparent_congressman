@@ -1,0 +1,38 @@
+{
+  "@@locale": "en",
+  "appTitle": "Transparent Congress",
+  "homeWelcomeTitle": "Welcome! This app helps you review Brazilian federal deputies' office expenses.",
+  "homeSearchActiveHint": "Tap the search icon to filter, or clear the field to see everyone again.",
+  "homeSearchFieldHint": "Search deputy by name",
+  "homeEmptyFilterResults": "No results match this filter.",
+  "retry": "Try again",
+  "clearFilters": "Clear filters",
+  "applyFilter": "Apply filter",
+  "filters": "Filters",
+  "clearFilter": "Clear filter",
+  "expensesIntro": "Here are the last six months of expense entries for this deputy:",
+  "expensesNoData": "Not enough data to display.",
+  "documentUnavailable": "Document unavailable",
+  "expensesPeriodTotal": "Period total: {total}",
+  "@expensesPeriodTotal": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "errorNetwork": "No connection. Check your internet and try again.",
+  "errorServer": "Service unavailable ({statusCode}). Please try again.",
+  "@errorServer": {
+    "placeholders": {
+      "statusCode": {
+        "type": "int"
+      }
+    }
+  },
+  "errorNotFound": "Resource not found.",
+  "errorParse": "Could not read the response data.",
+  "errorUnknown": "Something went wrong. Please try again.",
+  "documentViewerTitle": "Document",
+  "stateAll": "All"
+}
