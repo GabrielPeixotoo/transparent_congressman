@@ -24,7 +24,7 @@ Built as the **Final Degree Thesis** for a Systems Analysis and Development degr
 - **Inline document viewer** — expense receipts open as a PDF viewer or external web view depending on the document type
 - **Local caching** — Hive persists API responses locally, reducing redundant network requests
 - **Hero animations** — smooth shared-element transitions between the list and detail screens
-- **Localization** — English and Portuguese UI via Flutter gen-l10n ([`lib/l10n/app_en.arb`](lib/l10n/app_en.arb), [`lib/l10n/app_pt.arb`](lib/l10n/app_pt.arb)); **Portuguese** UI when the device language is Portuguese (`pt`, `pt_BR`, etc.), **English** for all other languages
+- **Localization** — English and Portuguese UI via Flutter gen-l10n ([`lib/l10n/app_en.arb`](lib/l10n/app_en.arb), [`lib/l10n/app_pt.arb`](lib/l10n/app_pt.arb)); **Portuguese** when the **primary** device language is Portuguese, **English** otherwise
 
 ---
 
@@ -80,7 +80,7 @@ Presenters expose `Stream`s consumed by `StreamBuilder` widgets. The UI reacts t
 ## Localization
 
 - ARB templates live in [`lib/l10n/`](lib/l10n/). After editing strings, run `fvm flutter gen-l10n` (or `fvm flutter pub get`, which triggers code generation).
-- Supported locales: **en**, **pt**. **Locale policy:** if the device (or preferred locale list on iOS) is Portuguese, the app uses **Portuguese**; otherwise it uses **English** — including unknown or unsupported languages.
+- Supported locales: **en**, **pt**. **Locale policy:** **Portuguese** only when the **primary** system language is Portuguese (`pt`, `pt_BR`, …). Otherwise **English** — including when Portuguese is only a secondary preferred language on iOS.
 
 ---
 

@@ -33,12 +33,9 @@ class MyApp extends StatelessWidget {
         return const Locale('en');
       },
       localeListResolutionCallback: (locales, supported) {
-        for (final locale in locales ?? const <Locale>[]) {
-          if (locale.languageCode == 'pt') {
-            return const Locale('pt');
-          }
-        }
-        return const Locale('en');
+        final list = locales ?? const <Locale>[];
+        if (list.isEmpty) return const Locale('en');
+        return list.first.languageCode == 'pt' ? const Locale('pt') : const Locale('en');
       },
       initialRoute: AppRoutes.homePage,
       theme: ThemeData(
