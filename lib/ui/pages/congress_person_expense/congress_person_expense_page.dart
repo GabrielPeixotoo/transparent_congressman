@@ -13,8 +13,15 @@ import 'components/components.dart';
 
 class CongressPersonExpensePage extends StatefulWidget {
   final CongressPersonExpensePresenter presenter;
-  const CongressPersonExpensePage({required this.presenter, Key? key})
-      : super(key: key);
+
+  /// When non-null (e.g. in tests), skips [Get.arguments] for the deputy.
+  final CongressPersonEntity? congressPersonForTest;
+
+  const CongressPersonExpensePage({
+    required this.presenter,
+    this.congressPersonForTest,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CongressPersonExpensePage> createState() =>
@@ -27,7 +34,8 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
   @override
   void initState() {
     super.initState();
-    congressPerson = Get.arguments['congressPerson'] as CongressPersonEntity;
+    congressPerson = widget.congressPersonForTest ??
+        Get.arguments['congressPerson'] as CongressPersonEntity;
     widget.presenter
         .fetchCongressPersonExpense(id: congressPerson.id.toString());
   }

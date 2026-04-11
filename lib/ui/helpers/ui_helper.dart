@@ -6,8 +6,7 @@ import '../theme/theme.dart';
 class UIHelper {
   UIHelper._();
 
-  static Future<dynamic> showCustomBottomSheet({required Widget bottomSheet}) =>
-      showModalBottomSheet(
+  static Future<dynamic> showCustomBottomSheet({required Widget bottomSheet}) => showModalBottomSheet(
         context: Get.context!,
         isDismissible: true,
         isScrollControlled: true,
