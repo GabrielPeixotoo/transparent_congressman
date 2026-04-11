@@ -17,7 +17,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get homeSearchActiveHint =>
-      'Toque no ícone de busca para filtrar, ou limpe o campo para retornar a todos os resultados.';
+      'Continue digitando — a busca atualiza após uma pausa. Toque no X ou apague o campo para ver todos de novo.';
+
+  @override
+  String get homeSearchClearTooltip => 'Limpar busca';
 
   @override
   String get homeSearchFieldHint => 'Pesquise o nome do deputado';

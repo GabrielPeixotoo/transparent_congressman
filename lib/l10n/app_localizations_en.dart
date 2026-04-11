@@ -17,7 +17,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeSearchActiveHint =>
-      'Tap the search icon to filter, or clear the field to see everyone again.';
+      'Keep typing — results update after a short pause. Tap X or clear the field to show everyone again.';
+
+  @override
+  String get homeSearchClearTooltip => 'Clear search';
 
   @override
   String get homeSearchFieldHint => 'Search deputy by name';

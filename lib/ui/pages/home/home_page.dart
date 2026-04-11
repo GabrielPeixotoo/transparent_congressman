@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:Deputado_Transparente/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,25 +19,58 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static const Duration _searchDebounce = Duration(milliseconds: 500);
+
   late TextEditingController searchController;
+  Timer? _debounce;
 
   @override
   void initState() {
+    super.initState();
     searchController = TextEditingController();
     widget.presenter.fetchCongressPersons();
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    searchController.dispose();
+    super.dispose();
   }
 
   BrazilianState selectedState = BrazilianState.states[0];
 
-  void onChangedTextField(String value) => setState(() {
-        if (searchController.text.isEmpty) {
-          widget.presenter.fetchCongressPersons();
-        }
-      });
+  void onChangedTextField(String value) {
+    _debounce?.cancel();
+    setState(() {});
+
+    if (searchController.text.isEmpty) {
+      widget.presenter.fetchCongressPersons();
+      return;
+    }
+
+    _debounce = Timer(_searchDebounce, () {
+      if (!mounted) return;
+      final query = searchController.text.trim();
+      if (query.isEmpty) {
+        widget.presenter.fetchCongressPersons();
+        return;
+      }
+      widget.presenter.searchCongressPersonByName(name: query);
+    });
+  }
+
+  void clearSearchField() {
+    closeKeyboard();
+    _debounce?.cancel();
+    searchController.clear();
+    setState(() {});
+    widget.presenter.fetchCongressPersons();
+  }
 
   void clearControllerAndRemoveFilters() => setState(() {
         selectedState = BrazilianState.states[0];
+        _debounce?.cancel();
         searchController.clear();
         widget.presenter.fetchCongressPersons();
       });
@@ -46,9 +81,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final size = MediaQuery.of(context).size;
-    final topLabel = searchController.text.isNotEmpty
-        ? l10n.homeSearchActiveHint
-        : l10n.homeWelcomeTitle;
+    final hasSearchText = searchController.text.isNotEmpty;
+    final topLabel = hasSearchText ? l10n.homeSearchActiveHint : l10n.homeWelcomeTitle;
 
     return Container(
       color: AppColors.primaryColor,
@@ -79,14 +113,17 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        closeKeyboard();
-                        widget.presenter.searchCongressPersonByName(
-                            name: searchController.text);
-                      },
-                    ),
+                    if (hasSearchText)
+                      IconButton(
+                        tooltip: l10n.homeSearchClearTooltip,
+                        icon: const Icon(Icons.close),
+                        onPressed: clearSearchField,
+                      )
+                    else
+                      const IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: null,
+                      ),
                   ],
                 ),
               ),
@@ -122,8 +159,7 @@ class _HomePageState extends State<HomePage> {
                                     );
                                   },
                                   child: Card(
-                                    child: CustomCongressPersonCard(
-                                        congressPerson: congressPerson),
+                                    child: CustomCongressPersonCard(congressPerson: congressPerson),
                                   ),
                                 ),
                               ),
@@ -145,8 +181,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const SizedBox(height: 16),
                                 ElevatedButton(
-                                  onPressed: () =>
-                                      widget.presenter.fetchCongressPersons(),
+                                  onPressed: () => widget.presenter.fetchCongressPersons(),
                                   child: Text(l10n.retry),
                                 ),
                               ],
@@ -160,12 +195,10 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           floatingActionButton: Visibility(
-            visible: searchController.text.isNotEmpty ||
-                selectedState != BrazilianState.states[0],
+            visible: searchController.text.isNotEmpty || selectedState != BrazilianState.states[0],
             replacement: FloatingActionButton.extended(
               onPressed: () => UIHelper.showCustomBottomSheet(
-                bottomSheet: StatefulBuilder(
-                    builder: (BuildContext context, StateSetter setSheetState) {
+                bottomSheet: StatefulBuilder(builder: (BuildContext context, StateSetter setSheetState) {
                   return SizedBox(
                       height: MediaQuery.of(context).size.height * 0.18,
                       child: Column(
@@ -176,34 +209,26 @@ class _HomePageState extends State<HomePage> {
                                 DropdownButton<BrazilianState>(
                                     value: selectedState,
                                     items: BrazilianState.states
-                                        .map((state) =>
-                                            DropdownMenuItem<BrazilianState>(
-                                                value: state,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                    children: [
-                                                      SvgPicture.asset(
-                                                        state.imageUrl,
-                                                        width: 35,
-                                                      ),
-                                                      const SizedBox(width: 5),
-                                                      Text(
-                                                        state.name ==
-                                                                BrazilianState
-                                                                    .allStatesValue
-                                                            ? l10n.stateAll
-                                                            : state.name,
-                                                        style: GoogleFonts
-                                                            .poppins(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                      ),
-                                                    ],
+                                        .map((state) => DropdownMenuItem<BrazilianState>(
+                                            value: state,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                children: [
+                                                  SvgPicture.asset(
+                                                    state.imageUrl,
+                                                    width: 35,
                                                   ),
-                                                )))
+                                                  const SizedBox(width: 5),
+                                                  Text(
+                                                    state.name == BrazilianState.allStatesValue
+                                                        ? l10n.stateAll
+                                                        : state.name,
+                                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w400),
+                                                  ),
+                                                ],
+                                              ),
+                                            )))
                                         .toList(),
                                     onChanged: (value) {
                                       setSheetState(() {
@@ -223,12 +248,10 @@ class _HomePageState extends State<HomePage> {
                                     Navigator.pop(context);
                                     widget.presenter.fetchCongressPersons();
                                     setSheetState(() {
-                                      selectedState =
-                                          BrazilianState.states[0];
+                                      selectedState = BrazilianState.states[0];
                                     });
                                     setState(() {
-                                      selectedState =
-                                          BrazilianState.states[0];
+                                      selectedState = BrazilianState.states[0];
                                     });
                                   },
                                   icon: const Icon(
@@ -243,9 +266,7 @@ class _HomePageState extends State<HomePage> {
                                   onPressed: () {
                                     closeKeyboard();
                                     Navigator.pop(context);
-                                    widget.presenter
-                                        .searchCongressPersonByState(
-                                            state: selectedState.name);
+                                    widget.presenter.searchCongressPersonByState(state: selectedState.name);
                                   },
                                   icon: const Icon(
                                     Icons.filter_alt_rounded,

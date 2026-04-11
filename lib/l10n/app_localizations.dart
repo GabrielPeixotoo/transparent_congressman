@@ -113,8 +113,14 @@ abstract class AppLocalizations {
   /// No description provided for @homeSearchActiveHint.
   ///
   /// In en, this message translates to:
-  /// **'Tap the search icon to filter, or clear the field to see everyone again.'**
+  /// **'Keep typing — results update after a short pause. Tap X or clear the field to show everyone again.'**
   String get homeSearchActiveHint;
+
+  /// No description provided for @homeSearchClearTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get homeSearchClearTooltip;
 
   /// No description provided for @homeSearchFieldHint.
   ///
