@@ -1,0 +1,2 @@
+/Users/gabrielcampospeixoto/transparent_congressman/android/app/.cxx/RelWithDebInfo/6j1k6261/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/gabrielcampospeixoto/transparent_congressman/android/app/.cxx/RelWithDebInfo/6j1k6261/armeabi-v7a/CMakeFiles/rebuild_cache.dir

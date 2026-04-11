@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/gabrielcampospeixoto/fvm/versions/3.29.2/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/gabrielcampospeixoto/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/gabrielcampospeixoto/transparent_congressman/android/app/.cxx/Debug/4o4g46qo/armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/gabrielcampospeixoto/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/gabrielcampospeixoto/transparent_congressman/android/app/.cxx/Debug/4o4g46qo/armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}
