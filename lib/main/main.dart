@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       initialRoute: AppRoutes.homePage,
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-          color: AppColors.primaryColor,
+          backgroundColor: AppColors.primaryColor,
         ),
       ),
       defaultTransition: Transition.cupertino,

@@ -1,5 +1,6 @@
 import '../../entities/entities.dart';
+import '../../result/result.dart';
 
 abstract class FetchCongressPersonExpenseUseCase {
-  Future<List<CongressPersonExpenseEntity>> call({required String id});
+  Future<Result<List<CongressPersonExpenseEntity>>> call({required String id});
 }

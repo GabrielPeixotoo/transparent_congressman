@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../domain/entities/entities.dart';
-import '../../helpers/ui_helper.dart';
+import '../../helpers/helpers.dart';
 import '../../theme/theme.dart';
 import '../components/components.dart';
 import '../pages.dart';
@@ -56,37 +56,63 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
                 ),
               ),
             ),
-            StreamBuilder<List<CongressPersonExpenseEntity?>?>(
+            StreamBuilder<CongressExpenseViewState>(
               stream: widget.presenter.congressPersonExpenseStream,
               builder: (context, snapshot) {
-                final snapshotData = snapshot.data;
-                if (snapshotData == null) {
-                  return const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (snapshot.hasData) {
-                  final listOfCongressPerson = snapshot.data ?? [];
-                  final expensesSum = listOfCongressPerson.fold<double>(
-                      0, (e, t) => e + double.parse(t?.valorLiquido ?? '0'));
-                  final formattedExpenseSum =
-                      UtilBrasilFields.obterReal(expensesSum);
-
-                  return Expanded(
-                    child: Column(
-                      children: [
-                        Visibility(
-                          visible: listOfCongressPerson.isNotEmpty,
-                          replacement: const Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Text('Não há dados suficientes.'),
+                final state =
+                    snapshot.data ?? const CongressExpenseLoading();
+                switch (state) {
+                  case CongressExpenseLoading():
+                    return const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: CircularProgressIndicator(),
+                    );
+                  case CongressExpenseError(:final failure):
+                    return Expanded(
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                failureUserMessage(failure),
+                                style: AppTextStyle.poppins2,
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 16),
+                              ElevatedButton(
+                                onPressed: () => widget.presenter
+                                    .fetchCongressPersonExpense(
+                                        id: congressPerson.id.toString()),
+                                child: const Text('Tentar novamente'),
+                              ),
+                            ],
                           ),
-                          child: Expanded(
-                            child: ListView.builder(
-                                itemCount: listOfCongressPerson.length,
+                        ),
+                      ),
+                    );
+                  case CongressExpenseSuccess(:final items):
+                    final expensesSum = items.fold<double>(
+                      0,
+                      (e, t) => e + double.parse(t.valorLiquido),
+                    );
+                    final formattedExpenseSum =
+                        UtilBrasilFields.obterReal(expensesSum);
+                    return Expanded(
+                      child: Column(
+                        children: [
+                          Visibility(
+                            visible: items.isNotEmpty,
+                            replacement: const Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Text('Não há dados suficientes.'),
+                            ),
+                            child: Expanded(
+                              child: ListView.builder(
+                                itemCount: items.length,
                                 itemBuilder: (context, index) {
-                                  final congressPersonExpense =
-                                      listOfCongressPerson[index]!;
+                                  final congressPersonExpense = items[index];
                                   final formattedLiquidValue =
                                       UtilBrasilFields.obterReal(double.parse(
                                           congressPersonExpense.valorLiquido));
@@ -124,28 +150,29 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
                                           style: AppTextStyle.poppins2,
                                         ),
                                         trailing: Text(
-                                            '${congressPersonExpense.mes}/${congressPersonExpense.ano}'),
+                                          '${congressPersonExpense.mes}/${congressPersonExpense.ano}',
+                                        ),
                                       ),
                                     ),
                                   );
-                                }),
-                          ),
-                        ),
-                        Visibility(
-                          visible: expensesSum != 0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Total do periodo: $formattedExpenseSum',
-                              style: AppTextStyle.poppins2,
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
+                          Visibility(
+                            visible: expensesSum != 0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Total do periodo: $formattedExpenseSum',
+                                style: AppTextStyle.poppins2,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                 }
-                return const SizedBox.shrink();
               },
             ),
           ],

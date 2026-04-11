@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../domain/entities/entities.dart';
 import '../../helpers/helpers.dart';
 import '../../theme/theme.dart';
 import '../components/components.dart';
@@ -91,17 +90,27 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              StreamBuilder<List<CongressPersonEntity?>?>(
+              StreamBuilder<HomeViewState>(
                 stream: widget.presenter.congressPersonStream,
                 builder: (context, snapshot) {
-                  final listOfCongressPerson = snapshot.data;
-                  if (listOfCongressPerson != null &&
-                      listOfCongressPerson.isNotEmpty) {
-                    return Expanded(
-                      child: ListView.builder(
-                          itemCount: listOfCongressPerson.length,
+                  final state = snapshot.data ?? const HomeLoading();
+                  return switch (state) {
+                    HomeLoading() => const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    HomeSuccess(:final items) when items.isEmpty => Center(
+                        child: Text(
+                          'Nenhum resultado foi encontrado com esse filtro.',
+                          style: AppTextStyle.poppins2,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    HomeSuccess(:final items) => Expanded(
+                        child: ListView.builder(
+                          itemCount: items.length,
                           itemBuilder: (context, index) {
-                            final congressPerson = listOfCongressPerson[index]!;
+                            final congressPerson = items[index];
                             return Hero(
                               tag: congressPerson.id,
                               child: Material(
@@ -119,23 +128,33 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             );
-                          }),
-                    );
-                  } else if (listOfCongressPerson != null &&
-                      listOfCongressPerson.isEmpty) {
-                    return Center(
-                      child: Text(
-                        'Nenhum resultado foi encontrado com esse filtro.',
-                        style: AppTextStyle.poppins2,
-                        textAlign: TextAlign.center,
+                          },
+                        ),
                       ),
-                    );
-                  } else {
-                    return const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: CircularProgressIndicator(),
-                    );
-                  }
+                    HomeError(:final failure) => Expanded(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  failureUserMessage(failure),
+                                  style: AppTextStyle.poppins2,
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 16),
+                                ElevatedButton(
+                                  onPressed: () =>
+                                      widget.presenter.fetchCongressPersons(),
+                                  child: const Text('Tentar novamente'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                  };
                 },
               ),
             ],

@@ -1,7 +1,7 @@
-import '../../../domain/entities/entities.dart';
+import 'congress_expense_view_state.dart';
 
 abstract class CongressPersonExpensePresenter {
-  Stream<List<CongressPersonExpenseEntity>?> get congressPersonExpenseStream;
+  Stream<CongressExpenseViewState> get congressPersonExpenseStream;
   Future<void> fetchCongressPersonExpense({
     required String id,
   });

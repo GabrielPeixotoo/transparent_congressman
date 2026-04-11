@@ -1,7 +1,7 @@
-import 'dart:async';
 import 'package:get/get.dart';
 
 import '../domain/entities/entities.dart';
+import '../domain/result/result.dart';
 import '../domain/usecases/usecases.dart';
 import '../main/routes/routes.dart';
 import '../ui/pages/pages.dart';
@@ -12,52 +12,47 @@ class GetXHomePresenter implements HomePresenter {
     required this.fetchCongressPersonsUseCase,
   });
 
-  final Rx<List<CongressPersonEntity>?> _congressPersons =
-      Rx<List<CongressPersonEntity>?>([]);
+  final Rx<HomeViewState> _state = Rx<HomeViewState>(const HomeLoading());
 
   @override
-  Stream<List<CongressPersonEntity>?> get congressPersonStream =>
-      _congressPersons.stream;
+  Stream<HomeViewState> get congressPersonStream => _state.stream;
 
   @override
   Future<void> fetchCongressPersons() async {
-    try {
-      final FetchCongressPeopleParams params = FetchCongressPeopleParams.all();
-      final listOfCongressPerson = await fetchCongressPersonsUseCase.call(
-        params: params,
-      );
-      _congressPersons.subject.add(listOfCongressPerson);
-    } catch (e) {}
+    _state.value = const HomeLoading();
+    final result = await fetchCongressPersonsUseCase.call(
+      params: FetchCongressPeopleParams.all(),
+    );
+    result.fold(
+      ok: (list) => _state.value = HomeSuccess(list),
+      err: (failure) => _state.value = HomeError(failure),
+    );
   }
 
   @override
   Future<void> searchCongressPersonByName({required String name}) async {
-    try {
-      if (name.isNotEmpty) {
-        _congressPersons.subject.add(null);
-        final FetchCongressPeopleParams params =
-            FetchCongressPeopleParams(nome: name);
-        final listOfCongressPerson = await fetchCongressPersonsUseCase.call(
-          params: params,
-        );
-        _congressPersons.subject.add(listOfCongressPerson);
-      }
-    } catch (e) {}
+    if (name.isEmpty) return;
+    _state.value = const HomeLoading();
+    final result = await fetchCongressPersonsUseCase.call(
+      params: FetchCongressPeopleParams(nome: name),
+    );
+    result.fold(
+      ok: (list) => _state.value = HomeSuccess(list),
+      err: (failure) => _state.value = HomeError(failure),
+    );
   }
 
   @override
   Future<void> searchCongressPersonByState({required String state}) async {
-    try {
-      if (state.isNotEmpty) {
-        _congressPersons.subject.add(null);
-        final FetchCongressPeopleParams params =
-            FetchCongressPeopleParams(siglaUf: state);
-        final listOfCongressPerson = await fetchCongressPersonsUseCase.call(
-          params: params,
-        );
-        _congressPersons.subject.add(listOfCongressPerson);
-      }
-    } catch (e) {}
+    if (state.isEmpty || state == 'Todos') return;
+    _state.value = const HomeLoading();
+    final result = await fetchCongressPersonsUseCase.call(
+      params: FetchCongressPeopleParams(siglaUf: state),
+    );
+    result.fold(
+      ok: (list) => _state.value = HomeSuccess(list),
+      err: (failure) => _state.value = HomeError(failure),
+    );
   }
 
   @override

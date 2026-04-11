@@ -1,8 +1,9 @@
-
 import '../../../domain/entities/entities.dart';
 
+import 'home_view_state.dart';
+
 abstract class HomePresenter {
-  Stream<List<CongressPersonEntity>?> get congressPersonStream;
+  Stream<HomeViewState> get congressPersonStream;
 
   Future<void> fetchCongressPersons();
   Future<void> searchCongressPersonByName({required String name});
