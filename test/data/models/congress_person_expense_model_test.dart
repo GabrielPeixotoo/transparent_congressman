@@ -13,29 +13,28 @@ void main() {
       };
 
       final model = CongressPersonExpenseModel.fromMap(json: json);
-      expect(model.tipoDespesa, 'PASSAGEM');
-      expect(model.valorLiquido, '99.90');
-      expect(model.ano, '2024');
-      expect(model.mes, '4');
-      expect(model.urlDocumento, 'https://example.com/x.pdf');
+      expect(model.expenseType, 'PASSAGEM');
+      expect(model.netAmount, '99.90');
+      expect(model.year, '2024');
+      expect(model.month, '4');
+      expect(model.documentUrl, 'https://example.com/x.pdf');
 
       final entity = model.toEntity();
-      expect(entity.tipoDespesa, model.tipoDespesa);
-      expect(entity.valorLiquido, model.valorLiquido);
-      expect(entity.ano, model.ano);
-      expect(entity.mes, model.mes);
-      expect(entity.urlDocumento, model.urlDocumento);
+      expect(entity.expenseType, model.expenseType);
+      expect(entity.netAmount, model.netAmount);
+      expect(entity.year, model.year);
+      expect(entity.month, model.month);
+      expect(entity.documentUrl, model.documentUrl);
     });
 
     test('fromMap uses empty strings for missing keys', () {
-      final model =
-          CongressPersonExpenseModel.fromMap(json: <String, dynamic>{});
+      final model = CongressPersonExpenseModel.fromMap(json: const <String, dynamic>{});
 
-      expect(model.tipoDespesa, '');
-      expect(model.valorLiquido, '');
-      expect(model.ano, '');
-      expect(model.mes, '');
-      expect(model.urlDocumento, '');
+      expect(model.expenseType, '');
+      expect(model.netAmount, '');
+      expect(model.year, '');
+      expect(model.month, '');
+      expect(model.documentUrl, '');
     });
   });
 }

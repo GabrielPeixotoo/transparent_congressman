@@ -1,25 +1,25 @@
 import 'package:equatable/equatable.dart';
 
 class CongressPersonExpenseEntity extends Equatable {
-  final String tipoDespesa;
-  final String valorLiquido;
-  final String ano;
-  final String mes;
-  final String urlDocumento;
+  final String expenseType;
+  final String netAmount;
+  final String year;
+  final String month;
+  final String documentUrl;
   const CongressPersonExpenseEntity({
-    required this.tipoDespesa,
-    required this.valorLiquido,
-    required this.ano,
-    required this.mes,
-    required this.urlDocumento,
+    required this.expenseType,
+    required this.netAmount,
+    required this.year,
+    required this.month,
+    required this.documentUrl,
   });
 
   @override
-  List get props => [
-        tipoDespesa,
-        valorLiquido,
-        ano,
-        mes,
-        urlDocumento,
+  List<Object> get props => [
+        expenseType,
+        netAmount,
+        year,
+        month,
+        documentUrl,
       ];
 }

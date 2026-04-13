@@ -1,21 +1,22 @@
 import '../../domain/entities/entities.dart';
 
 class CongressPersonExpenseModel extends CongressPersonExpenseEntity {
-  const CongressPersonExpenseModel(
-      {required super.tipoDespesa,
-      required super.valorLiquido,
-      required super.ano,
-      required super.mes,
-      required super.urlDocumento});
+  const CongressPersonExpenseModel({
+    required super.expenseType,
+    required super.netAmount,
+    required super.year,
+    required super.month,
+    required super.documentUrl,
+  });
 
   factory CongressPersonExpenseModel.fromMap({required Map json}) {
     try {
       return CongressPersonExpenseModel(
-        ano: json['ano']?.toString() ?? '',
-        mes: json['mes']?.toString() ?? '',
-        tipoDespesa: json['tipoDespesa']?.toString() ?? '',
-        valorLiquido: json['valorLiquido']?.toString() ?? '',
-        urlDocumento: json['urlDocumento']?.toString() ?? '',
+        year: json['ano']?.toString() ?? '',
+        month: json['mes']?.toString() ?? '',
+        expenseType: json['tipoDespesa']?.toString() ?? '',
+        netAmount: json['valorLiquido']?.toString() ?? '',
+        documentUrl: json['urlDocumento']?.toString() ?? '',
       );
     } on TypeError catch (error) {
       throw Exception(error);
@@ -23,10 +24,10 @@ class CongressPersonExpenseModel extends CongressPersonExpenseEntity {
   }
 
   CongressPersonExpenseEntity toEntity() => CongressPersonExpenseEntity(
-        tipoDespesa: tipoDespesa,
-        valorLiquido: valorLiquido,
-        ano: ano,
-        mes: mes,
-        urlDocumento: urlDocumento,
+        expenseType: expenseType,
+        netAmount: netAmount,
+        year: year,
+        month: month,
+        documentUrl: documentUrl,
       );
 }

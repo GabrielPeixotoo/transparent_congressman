@@ -65,7 +65,7 @@ void main() {
       );
       await _pumpExpensePageReady(tester);
 
-      expect(find.text(kTestCongressPersonExpense.tipoDespesa), findsOneWidget);
+      expect(find.text(kTestCongressPersonExpense.expenseType), findsOneWidget);
       verify(() => mockPresenter.fetchCongressPersonExpense(id: '1')).called(1);
     });
 
@@ -103,7 +103,7 @@ void main() {
       await tester.tap(find.text(l10n.retry));
       await _pumpExpensePageReady(tester);
 
-      expect(find.text(kTestCongressPersonExpense.tipoDespesa), findsOneWidget);
+      expect(find.text(kTestCongressPersonExpense.expenseType), findsOneWidget);
       verify(() => mockPresenter.fetchCongressPersonExpense(id: '1')).called(2);
     });
 

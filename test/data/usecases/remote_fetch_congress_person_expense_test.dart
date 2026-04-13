@@ -46,8 +46,8 @@ void main() {
       expect(result, isA<Ok<List<CongressPersonExpenseEntity>>>());
       final list = (result as Ok<List<CongressPersonExpenseEntity>>).value;
       expect(list, hasLength(1));
-      expect(list.first.tipoDespesa, 'PASSAGEM AÉREA');
-      expect(list.first.valorLiquido, '1500.00');
+      expect(list.first.expenseType, 'PASSAGEM AÉREA');
+      expect(list.first.netAmount, '1500.00');
       verify(() => http.request(
             url: any(named: 'url'),
             method: RequestMethod.get,

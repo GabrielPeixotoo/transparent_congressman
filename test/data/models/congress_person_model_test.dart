@@ -36,7 +36,7 @@ void main() {
     });
 
     test('toMap round-trips core string fields', () {
-      final model = CongressPersonModel.fromMap(json: {
+      final model = CongressPersonModel.fromMap(json: const {
         'id': 1,
         'uri': 'u',
         'nome': 'N',
@@ -56,7 +56,7 @@ void main() {
     });
 
     test('fromMap uses defaults for missing keys', () {
-      final model = CongressPersonModel.fromMap(json: <String, dynamic>{});
+      final model = CongressPersonModel.fromMap(json: const <String, dynamic>{});
 
       expect(model.id, 0);
       expect(model.uri, '');

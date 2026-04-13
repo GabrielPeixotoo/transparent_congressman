@@ -104,7 +104,7 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
                   case CongressExpenseSuccess(:final items):
                     final expensesSum = items.fold<double>(
                       0,
-                      (e, t) => e + double.parse(t.valorLiquido),
+                      (e, t) => e + double.parse(t.netAmount),
                     );
                     final formattedExpenseSum =
                         UtilBrasilFields.obterReal(expensesSum);
@@ -124,19 +124,19 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
                                   final congressPersonExpense = items[index];
                                   final formattedLiquidValue =
                                       UtilBrasilFields.obterReal(double.parse(
-                                          congressPersonExpense.valorLiquido));
+                                          congressPersonExpense.netAmount));
                                   return InkWell(
                                     onTap: () {
-                                      final urlDocument =
-                                          congressPersonExpense.urlDocumento;
-                                      if (urlDocument.isNotEmpty) {
-                                        if (urlDocument.contains('.pdf')) {
+                                      final documentUrl =
+                                          congressPersonExpense.documentUrl;
+                                      if (documentUrl.isNotEmpty) {
+                                        if (documentUrl.contains('.pdf')) {
                                           Get.to(() => PdfViewerWidget(
-                                                document: urlDocument,
+                                                document: documentUrl,
                                               ));
                                         } else {
                                           _launchInWebView(
-                                              Uri.parse(urlDocument));
+                                              Uri.parse(documentUrl));
                                         }
                                       } else {
                                         UIHelper.showCustomSnackBar(
@@ -151,7 +151,7 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
                                       child: ListTile(
                                         leading: const Icon(Icons.money),
                                         title: Text(
-                                          congressPersonExpense.tipoDespesa,
+                                          congressPersonExpense.expenseType,
                                           style: AppTextStyle.poppins2,
                                         ),
                                         subtitle: Text(
@@ -159,7 +159,7 @@ class _CongressPersonExpensePageState extends State<CongressPersonExpensePage> {
                                           style: AppTextStyle.poppins2,
                                         ),
                                         trailing: Text(
-                                          '${congressPersonExpense.mes}/${congressPersonExpense.ano}',
+                                          '${congressPersonExpense.month}/${congressPersonExpense.year}',
                                         ),
                                       ),
                                     ),

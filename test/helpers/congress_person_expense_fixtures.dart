@@ -2,9 +2,9 @@ import 'package:Deputado_Transparente/domain/entities/entities.dart';
 
 const CongressPersonExpenseEntity kTestCongressPersonExpense =
     CongressPersonExpenseEntity(
-  tipoDespesa: 'Test expense type',
-  valorLiquido: '100.50',
-  ano: '2024',
-  mes: '03',
-  urlDocumento: '',
+  expenseType: 'Test expense type',
+  netAmount: '100.50',
+  year: '2024',
+  month: '03',
+  documentUrl: '',
 );

@@ -1,5 +1,4 @@
 import 'package:Deputado_Transparente/data/http/http.dart';
-import 'package:Deputado_Transparente/data/http/http_client_exception.dart';
 import 'package:Deputado_Transparente/domain/errors/failure.dart';
 import 'package:Deputado_Transparente/infra/http/dio_adapter.dart';
 import 'package:dio/dio.dart';
@@ -99,8 +98,7 @@ void main() {
       expect(out, <String, dynamic>{});
     });
 
-    test('throws HttpClientException with NotFoundFailure for 404 response',
-        () async {
+    test('throws HttpClientException with NotFoundFailure for 404 response', () async {
       final dio = _dioThatResolves(
         Response(
           requestOptions: RequestOptions(path: '/'),
@@ -125,8 +123,7 @@ void main() {
       );
     });
 
-    test('throws HttpClientException with ServerFailure for 500 response',
-        () async {
+    test('throws HttpClientException with ServerFailure for 500 response', () async {
       final dio = _dioThatResolves(
         Response(
           requestOptions: RequestOptions(path: '/'),
