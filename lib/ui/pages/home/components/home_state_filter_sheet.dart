@@ -25,72 +25,73 @@ class HomeStateFilterSheet extends StatelessWidget {
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.18,
-      child: Column(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                DropdownButton<BrazilianState>(
-                  value: selectedState,
-                  items: BrazilianState.states
-                      .map(
-                        (state) => DropdownMenuItem<BrazilianState>(
-                          value: state,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  state.imageUrl,
-                                  width: 35,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  state.name == BrazilianState.allStatesValue
-                                      ? l10n.stateAll
-                                      : state.name,
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w400,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  DropdownButton<BrazilianState>(
+                    value: selectedState,
+                    items: BrazilianState.states
+                        .map(
+                          (state) => DropdownMenuItem<BrazilianState>(
+                            value: state,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    state.imageUrl,
+                                    width: 35,
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    state.name == BrazilianState.allStatesValue ? l10n.stateAll : state.name,
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) {
-                    if (value != null) onStateChanged(value);
-                  },
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      if (value != null) onStateChanged(value);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: onClearFilters,
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      size: 24,
+                    ),
+                    label: Text(l10n.clearFilters),
+                  ),
+                ),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: onApplyFilter,
+                    icon: const Icon(
+                      Icons.filter_alt_rounded,
+                      size: 24,
+                    ),
+                    label: Text(l10n.applyFilter),
+                  ),
                 ),
               ],
             ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: onClearFilters,
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    size: 24,
-                  ),
-                  label: Text(l10n.clearFilters),
-                ),
-              ),
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: onApplyFilter,
-                  icon: const Icon(
-                    Icons.filter_alt_rounded,
-                    size: 24,
-                  ),
-                  label: Text(l10n.applyFilter),
-                ),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

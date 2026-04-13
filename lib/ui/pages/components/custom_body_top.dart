@@ -31,6 +31,7 @@ class CustomBodyTop extends StatelessWidget {
           child: Stack(children: [
             Container(
               height: size.height * 0.20 - 27,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: const BoxDecoration(
                 color: AppColors.primaryColor,
                 borderRadius: BorderRadius.only(
