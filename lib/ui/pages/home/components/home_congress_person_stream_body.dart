@@ -30,9 +30,10 @@ class HomeCongressPersonStreamBody extends StatelessWidget {
       builder: (context, snapshot) {
         final state = snapshot.data ?? const HomeLoading();
         return switch (state) {
-          HomeLoading() => const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: CircularProgressIndicator(),
+          HomeLoading() => const Expanded(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
           HomeSuccess(:final items) when items.isEmpty => Center(
               child: Text(
