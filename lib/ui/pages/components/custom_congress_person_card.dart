@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -11,10 +12,24 @@ class CustomCongressPersonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListTile(
-        leading: FadeInImage.memoryNetwork(
-          placeholder: kTransparentImage,
-          image: congressPerson.urlProfilePic,
-          imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.person, size: 34),
+        minVerticalPadding: 8,
+        leading: SizedBox(
+          width: 36,
+          height: 48,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: CachedNetworkImage(
+              imageUrl: congressPerson.urlProfilePic,
+              memCacheWidth: 108,
+              memCacheHeight: 144,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Image.memory(kTransparentImage),
+              errorWidget: (context, url, error) => Container(
+                color: Colors.grey,
+                child: const Icon(Icons.person, size: 24),
+              ),
+            ),
+          ),
         ),
         title: Text(
           congressPerson.name,
