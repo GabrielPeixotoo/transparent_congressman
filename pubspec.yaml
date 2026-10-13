@@ -13,24 +13,28 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  brasil_fields: ^1.10.0
   chuck_interceptor: ^2.6.2
   cupertino_icons: ^1.0.2
   dio: ^5.8.0+1
   equatable: ^2.0.5
-  get: ^4.6.5
+  firebase_core: ^4.15.0
+  firebase_crashlytics: ^5.4.0
+  firebase_analytics: ^12.6.0
+  flutter_cache_manager: ^3.3.0
+  flutter_launcher_icons: ^0.14.3
   flutter_svg: ^2.0.17
+  get: ^4.6.5
   google_fonts: ^8.2.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   modal_bottom_sheet: ^3.0.0
   path_provider: ^2.0.12
-  brasil_fields: ^1.10.0
   transparent_image: ^2.0.0
   pdfx: ^2.8.0
-  flutter_cache_manager: ^3.3.0
+  pretty_dio_logger: ^1.4.0
   webview_flutter: ^4.0.2
   url_launcher: ^6.1.9
-  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:

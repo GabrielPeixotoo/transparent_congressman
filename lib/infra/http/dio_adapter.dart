@@ -56,7 +56,7 @@ class DioAdapter implements HttpClient {
       case DioExceptionType.cancel:
         return const NetworkFailure('Request cancelled');
       case DioExceptionType.badCertificate:
-      case DioExceptionType.unknown:
+      default:
         return UnknownFailure(error.error ?? error.message);
     }
   }
