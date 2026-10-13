@@ -65,7 +65,7 @@ class CustomBodyTop extends StatelessWidget {
                       BoxShadow(
                         offset: const Offset(0, 10),
                         blurRadius: 50,
-                        color: AppColors.primaryColor.withOpacity(0.23),
+                        color: AppColors.primaryColor.withValues(alpha: 0.23),
                       ),
                     ],
                   ),

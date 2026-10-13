@@ -10,7 +10,7 @@ class UIHelper {
         context: Get.context!,
         isDismissible: true,
         isScrollControlled: true,
-        barrierColor: const Color(0xFF141414).withOpacity(0.9),
+        barrierColor: const Color(0xFF141414).withValues(alpha: 0.9),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         ),

@@ -32,7 +32,7 @@ class HomeSearchBar extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: l10n.homeSearchFieldHint,
                   hintStyle: TextStyle(
-                    color: AppColors.primaryColor.withOpacity(0.5),
+                    color: AppColors.primaryColor.withValues(alpha: 0.5),
                   ),
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
