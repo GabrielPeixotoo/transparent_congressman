@@ -2,6 +2,10 @@
 
 A Flutter mobile application for public transparency that allows Brazilian citizens to browse all active members of Congress and inspect their publicly declared expenses — including itemized receipts accessible directly in the app.
 
+## Play Store
+
+https://play.google.com/store/apps/details?id=com.peixototechnologies.deputadotransparente
+
 Built as the **Final Degree Thesis** for a Systems Analysis and Development degree, this project demonstrates production-grade Clean Architecture applied to a real-world civic accountability use case.
 
 > Data sourced from the official Brazilian Chamber of Deputies Open API:
@@ -60,19 +64,19 @@ Presenters expose `Stream`s consumed by `StreamBuilder` widgets. The UI reacts t
 
 ## Tech Stack
 
-| Concern              | Library                         |
-| -------------------- | ------------------------------- |
-| Framework            | Flutter 3.35.5 (pinned via FVM) |
-| State Management     | GetX                            |
-| HTTP Client          | Dio                             |
-| Local Cache          | Hive + Hive Flutter             |
-| Navigation           | GetX Navigation                 |
-| PDF Viewer           | pdfx                            |
-| Web Viewer           | webview_flutter + url_launcher  |
-| SVG Rendering        | flutter_svg                     |
-| Fonts                | Google Fonts (Poppins)          |
-| Value Equality       | Equatable                       |
-| Brazilian Formatting | brasil_fields                   |
+| Concern              | Library                                 |
+| -------------------- | --------------------------------------- |
+| Framework            | Flutter 3.35.5 (pinned via FVM)         |
+| State Management     | GetX                                    |
+| HTTP Client          | Dio                                     |
+| Local Cache          | Hive + Hive Flutter                     |
+| Navigation           | GetX Navigation                         |
+| PDF Viewer           | pdfx                                    |
+| Web Viewer           | webview_flutter + url_launcher          |
+| SVG Rendering        | flutter_svg                             |
+| Fonts                | Google Fonts (Poppins)                  |
+| Value Equality       | Equatable                               |
+| Brazilian Formatting | brasil_fields                           |
 | Localization         | flutter_localizations + intl (gen-l10n) |
 
 ---
